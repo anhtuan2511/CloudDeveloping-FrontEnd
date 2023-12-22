@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* .diagonal-background {
+  background: linear-gradient(to bottom right, #4f7cff 0%, #4f7cff 50%, #3d5fc4 50%, #3d5fc4 1000% )
+} */
+
+.error-msg {
+  display: flex;
+  font-size: 12px;
+  color: red;
+  padding-top: 3px;
+  width: inherit;
+  justify-content: left;
+  text-align: justify;
+  padding-top: 0.5rem;
+}
+
+.btn:disabled:hover {
+  background: grey;
+  color: #fff;
+  cursor: default;
+}
+
+.viewheight-85 {
+  height: 85vh;
+}
