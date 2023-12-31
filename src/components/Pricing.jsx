@@ -22,9 +22,9 @@ const Pricing = () => {
       }
     });
   }, [userId]);
-
+// EC2 IP address
   const checkout = (plan) => {
-    fetch("http://localhost:5000/api/v1/create-subscription-checkout-session", {
+    fetch("http://3.233.164.47:5000/api/v1/create-subscription-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

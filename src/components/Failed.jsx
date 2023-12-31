@@ -11,8 +11,8 @@ const Failed = () => {
                 <img
                   width="100"
                   height="100"
-                  src="src/assets/failed.png"
-                  alt="check_mark"
+                  src="https://i.imgur.com/hdoDnut.png"
+                  alt="cross_mark"
                 />
               </div>
 

@@ -23,12 +23,6 @@ const Header = () => {
               <a href="/pricing" className="text-gray-600 hover:text-gray-900 block px-2 py-1">
                 Pricing
               </a>
-              {/* <a href="/register" className="text-gray-600 hover:text-gray-900 block px-2 py-1">
-                Register
-              </a>
-              <a href="/login" className="text-blue-600 hover:text-blue-800 block px-2 py-1">
-                Login
-              </a> */}
               <Header_login></Header_login>
             </div>
             <div className="md:hidden">
@@ -62,18 +56,6 @@ const Header = () => {
               Pricing
             </a>
             <Header_login></Header_login>
-            {/* <a
-              href="/register"
-              className="block px-2 py-1 text-gray-600 hover:text-gray-900"
-            >
-              Register
-            </a>
-            <a
-              href="/login"
-              className="block px-2 py-1 text-blue-600 hover:text-blue-800"
-            >
-              Login
-            </a> */}
           </div>
         </div>
       </nav>

@@ -25,9 +25,9 @@ const Success = () => {
   useEffect(()=>{
     handlePaymentSuccess()}
    );
-
+// EC2 IP address
   const handlePaymentSuccess = () => {
-    fetch("http://localhost:5000/api/v1/payment-success", {
+    fetch("http://3.233.164.47:5000/api/v1/payment-success", {
       method:"POST",
       headers:{
         "Content-Type":"application/json"
@@ -57,7 +57,7 @@ const Success = () => {
                 <img
                   width="100"
                   height="100"
-                  src="src/assets/check_mark.png"
+                  src="https://i.imgur.com/T9q1MQe.png"
                   alt="check_mark"
                 />
               </div>

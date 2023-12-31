@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from "react";
-import toggleMenu from "../script/script";
-import script from "../script/script";
 import firebase from "../firebase/firebaseConfig";
 
 const Header_login = () => {
@@ -18,28 +16,6 @@ const Header_login = () => {
       }
     });
   }, [userId]);
-
-  const checkout = (plan) => {
-    fetch("http://localhost:5000/api/v1/create-subscription-checkout-session", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      mode: "cors",
-      body: JSON.stringify({ plan: plan, customerId: userId }),
-    })
-      .then((res) => {
-        if (res.ok) return res.json();
-        console.log(res);
-        return res.json().then((json) => Promise.reject(json));
-      })
-      .then(({ session }) => {
-        window.location = session.url;
-      })
-      .catch((e) => {
-        console.log(e.error);
-      });
-  };
 
   return !userId ? (
     <>
