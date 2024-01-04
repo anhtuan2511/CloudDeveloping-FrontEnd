@@ -53,7 +53,6 @@ const Failed = () => {
               </div>
             </div>
           </section>
-          {/* <div className="w-full border-t border-gray-300"></div> */}
         </main>
       </div>
     </>

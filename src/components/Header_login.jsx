@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import firebase from "../firebase/firebaseConfig";
 
 const Header_login = () => {
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [userName, setUserName] = useState("");
+
+  const handleSignOut = () => {
+    firebase.auth().signOut()
+    navigate("/")
+  };
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
@@ -34,12 +41,12 @@ const Header_login = () => {
     </>
   ) : (
     <>
-      <a href="/" className="block px-2 py-1 text-blue-600 hover:text-blue-800">
+      <a href="/dashboard" className="block px-2 py-1 text-blue-600 hover:text-blue-800">
         {userName}
       </a>
       <button
         className="block px-2 py-1 text-blue-600 hover:text-blue-800"
-        onClick={() => firebase.auth().signOut()}
+        onClick={() => handleSignOut()}
       >
         Logout
       </button>

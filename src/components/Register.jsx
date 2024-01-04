@@ -74,7 +74,7 @@ const Register = () => {
           email: email,
           username: fullname,
         });
-        firebase.auth().signOut()
+        firebase.auth().signOut();
         console.log("Account created.");
         setFullName("");
         setEmail("");

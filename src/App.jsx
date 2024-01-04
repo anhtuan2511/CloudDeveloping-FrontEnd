@@ -1,4 +1,3 @@
-import { useState } from "react";
 import "./App.css";
 import { BrowserRouter, Routes, Route, Router } from "react-router-dom";
 import Header from "./components/Header";
@@ -9,13 +8,13 @@ import Login from "./components/Login";
 import Pricing from "./components/Pricing"
 import Success from "./components/Success";
 import Failed from "./components/Failed";
+import Dashboard from "./components/Dashboard";
 
 function App() {
 
   return (
     <BrowserRouter>
       <Header />
-
       <Routes>
         <Route path="" element={<Home />} />
         <Route path="register" element={<Register />} />
@@ -23,6 +22,7 @@ function App() {
         <Route path="pricing" element={<Pricing />} />
         <Route path="success" element={<Success />} />
         <Route path="failed" element={<Failed />} />
+        <Route path="dashboard" element={<Dashboard />} />
       </Routes>
       <Footer />
     </BrowserRouter>

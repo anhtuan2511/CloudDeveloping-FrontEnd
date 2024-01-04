@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import toggleMenu from "../script/script";
-import script from "../script/script"
 import Header_login from "./Header_login";
 import firebase from "../firebase/firebaseConfig"
 

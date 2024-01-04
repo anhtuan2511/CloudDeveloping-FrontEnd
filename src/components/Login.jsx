@@ -1,4 +1,3 @@
-
 import React from "react";
 import { useState } from "react";
 import firebase from "../firebase/firebaseConfig";
@@ -10,27 +9,30 @@ const Login = () => {
   const [loginError, setLoginError] = useState("");
   const navigate = useNavigate();
 
-  const handleSubmit = async(e) => {
-    e.preventDefault();  
-    console.log(email, password)
-    try{
-      const response = await firebase.auth().signInWithEmailAndPassword(email, password);
-    if (response.user){
-      setEmail("");
-      setPassword("");
-      await navigate("/");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const response = await firebase
+        .auth()
+        .signInWithEmailAndPassword(email, password);
+      if (response.user) {
+        setEmail("");
+        setPassword("");
+        await navigate("/dashboard");
+      }
+    } catch (error) {
+      setLoginError("Invalid email or password!");
+      console.log(error);
     }
-    } catch(error){
-      setLoginError("Invalid email or password!")
-      console.log(error)
-    }
-  }
+  };
   return (
     <>
       <div className="">
         <div className="flex items-center w-full mx-auto h-1/2 justify-center flex-col min-h-screen">
           <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-xl border-2">
-            <h1 className="text-3xl font-semibold  text-center text-blue-600">Login</h1>
+            <h1 className="text-3xl font-semibold  text-center text-blue-600">
+              Login
+            </h1>
             <div className="error-msg">{loginError}</div>
             <form onSubmit={handleSubmit}>
               <div className="mb-4">
@@ -48,7 +50,7 @@ const Login = () => {
                   className="py-1 block w-full border-gray-300 border-2 rounded-md shadow-sm focus:border-blue-500 focus:outline-none focus:ring-0 pl-2"
                   required
                   value={email}
-                  onChange={(e)=>setEmail(e.target.value)}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
               <div className="mb-6">
@@ -66,17 +68,15 @@ const Login = () => {
                   className="py-1  block w-full border-gray-300 border-2 rounded-md shadow-sm focus:border-blue-500 focus:outline-none focus:ring-0 pl-2"
                   required
                   value={password}
-                  onChange={(e)=>setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
               <div className="w-full flex justify-between items-center px-0 pb-4 text-blue-600">
                 <div className="text-left">
                   <a href="/register" className="hover:underline">
-                  Don't have an account?
+                    Don't have an account?
                   </a>
-              
                 </div>
-
               </div>
               <div className="mx-auto flex justify-center items-center py-4">
                 <button
@@ -90,7 +90,6 @@ const Login = () => {
           </div>
         </div>
       </div>
-      
     </>
   );
 };

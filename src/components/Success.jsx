@@ -1,51 +1,48 @@
 import React, { useEffect, useState } from "react";
 import firebase from "../firebase/firebaseConfig";
-import { useNavigate } from "react-router-dom";
 
 const Success = () => {
-  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [sessionId, setSessionId] = useState("");
 
-  useEffect(()=>{
-    firebase.auth().onAuthStateChanged((user)=> {
-      if(user){
-        setUserId(user.uid)
+  useEffect(() => {
+    firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        setUserId(user.uid);
         const userRef = firebase.database().ref("users/" + user.uid);
-        userRef.on('value', (snapshot) => {
+        userRef.on("value", (snapshot) => {
           const user = snapshot.val();
-          if(user){
-            setSessionId(user.subscription.sessionId || "")
+          if (user) {
+            setSessionId(user.subscription.sessionId || "");
           }
-        })
+        });
       }
-    })
+    });
   }, [userId, sessionId]);
 
-  useEffect(()=>{
-    handlePaymentSuccess()}
-   );
-// EC2 IP address
+  useEffect(() => {
+    handlePaymentSuccess();
+  });
+  // EC2 IP address
   const handlePaymentSuccess = () => {
     fetch("http://3.233.164.47:5000/api/v1/payment-success", {
-      method:"POST",
-      headers:{
-        "Content-Type":"application/json"
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
       },
-      body: JSON.stringify({sessionId: sessionId, firebaseId: userId})
+      body: JSON.stringify({ sessionId: sessionId, firebaseId: userId }),
     })
-    .then(res => {
-      if(res.ok) return res.json();
-      return res.json().then(json => Promise.reject(json));
-    })
-    .then(data => {
-      console.log(data.message);
-      // navigate("/")
-    })
-    .catch(e => {
-      console.log(e.error);
-    });
-  }
+      .then((res) => {
+        if (res.ok) return res.json();
+        return res.json().then((json) => Promise.reject(json));
+      })
+      .then((data) => {
+        console.log(data.message);
+      })
+      .catch((e) => {
+        console.log(e.error);
+      });
+  };
 
   return (
     <>
@@ -66,22 +63,20 @@ const Success = () => {
                 Payment Success
               </h1>
               <p className="text-lg mb-6">
-                Thank you for subcribing. You can now use the ERPNext services avaiable in the webiste.
+                Thank you for subcribing. You can now use the ERPNext services
+                avaiable in the webiste.
               </p>
-              <a href="/">
-              <button
-                  className="w-[20%] bg-blue-500 text-white py-2 rounded-md mt-auto hover:bg-blue-700 mb-6"
-                >
+              <a href="/dashboard">
+                <button className="w-[20%] bg-blue-500 text-white py-2 rounded-md mt-auto hover:bg-blue-700 mb-6">
                   Click here to get started
                 </button>
               </a>
               <p>* Terms and conditions applied.</p>
-            <p>* Features are subjected to change.</p>
+              <p>* Features are subjected to change.</p>
             </div>
           </section>
 
           <section className="mx-auto  text-center text-gray-600 text-sm bg-white pb-10">
-            
             <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-8 ">
               <div className="bg-white p-6 rounded-xl shadow-xl border-grey-300 border">
                 <h2 className="text-2xl font-bold mb-4 text-left">
@@ -100,7 +95,6 @@ const Success = () => {
               </div>
             </div>
           </section>
-          {/* <div className="w-full border-t border-gray-300"></div> */}
         </main>
       </div>
     </>

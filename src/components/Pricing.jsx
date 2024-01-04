@@ -4,17 +4,17 @@ import firebase from "../firebase/firebaseConfig";
 const Pricing = () => {
   const [userId, setUserId] = useState("");
   const [planType, setPlanType] = useState("");
+  const [showUnsubscribePopup, setShowUnsubscribePopup] = useState(false);
 
   useEffect(() => {
     firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         setUserId(user.uid);
-        console.log("userid: ", userId);
         const userRef = firebase.database().ref("users/" + user.uid);
         userRef.on("value", (snapshot) => {
-          const user = snapshot.val();
-          if (user) {
-            setPlanType(user.subscription.planType || "");
+          const userData = snapshot.val();
+          if (userData && userData.subscription) {
+            setPlanType(userData.subscription.planType || "");
           }
         });
       } else {
@@ -22,8 +22,9 @@ const Pricing = () => {
       }
     });
   }, [userId]);
-// EC2 IP address
+
   const checkout = (plan) => {
+    // EC2 IP address
     fetch("http://3.233.164.47:5000/api/v1/create-subscription-checkout-session", {
       method: "POST",
       headers: {
@@ -45,6 +46,18 @@ const Pricing = () => {
       .catch((e) => {
         console.log(e.error);
       });
+  };
+
+  const handleUnsubscribeConfirm = async () => {
+    const user = firebase.auth().currentUser;
+    if (user) {
+      const subscriptionRef = firebase
+        .database()
+        .ref(`users/${user.uid}/subscription`);
+      await subscriptionRef.remove();
+      setShowUnsubscribePopup(false);
+      window.location.reload();
+    }
   };
 
   return (
@@ -87,7 +100,7 @@ const Pricing = () => {
             ].map((item, idx) => (
               <div
                 key={idx}
-                className={`max-w-sm w-full mx-auto md:mx-0 rounded-lg border border-gray-300 p-6 card shadow-xl ${
+                className={`max-w-sm w-full mx-auto md:mx-0 rounded-lg border border-blue-500 p-6 card shadow-xl ${
                   planType === item.title.toLowerCase() &&
                   "border-[4px] border-blue-600"
                 }`}
@@ -127,9 +140,36 @@ const Pricing = () => {
                   </ul>
                 </div>
                 {planType === item.title.toLowerCase() ? (
-                  <button className="w-full bg-gray-400 text-white py-2 rounded-md mt-auto hover:bg-blue-700">
-                    Subscribed
-                  </button>
+                  <>
+                    <button
+                      onClick={() => setShowUnsubscribePopup(true)}
+                      className="w-full bg-red-300 text-white py-2 rounded-md mt-auto hover:bg-red-700"
+                    >
+                      Unsubscribe?
+                    </button>
+
+                    {showUnsubscribePopup && (
+                      <div className="fixed inset-0 bg-gray-600 bg-opacity-50 overflow-y-auto h-full w-full flex items-center justify-center">
+                        <div className="bg-white p-5 rounded-lg shadow-md">
+                          <p>Are you sure you want to unsubscribe?</p>
+                          <div className="flex justify-center mt-3">
+                          <button
+                            onClick={handleUnsubscribeConfirm}
+                            className="bg-red-300 text-white px-4 py-2 rounded-md hover:bg-red-700 mx-2"
+                          >
+                            Confirm
+                          </button>
+                          <button
+                            onClick={() => setShowUnsubscribePopup(false)}
+                            className="bg-green-300 text-black px-4 py-2 rounded-md hover:bg-green-500 mx-2"
+                          >
+                            Cancel
+                          </button>
+                          </div>
+                        </div>
+                      </div>
+                    )}
+                  </>
                 ) : (
                   <button
                     onClick={() => checkout(Number(item.price))}
@@ -163,7 +203,6 @@ const Pricing = () => {
               </div>
             </div>
           </div>
-          {/* <div className="w-full border-t border-gray-300"></div> */}
         </main>
       </div>
     </>
